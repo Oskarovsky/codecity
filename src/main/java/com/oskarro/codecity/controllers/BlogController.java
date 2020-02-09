@@ -1,6 +1,5 @@
 package com.oskarro.codecity.controllers;
 
-import com.oskarro.codecity.config.CustomUserDetails;
 import com.oskarro.codecity.entities.Post;
 import com.oskarro.codecity.service.CoderService;
 import com.oskarro.codecity.service.PostService;
@@ -35,12 +34,12 @@ public class BlogController {
     }
 
     @PostMapping(value = "/post")
-    public void publishPost(@RequestBody Post post) {
-        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public String publishPost(@RequestBody Post post) {
         if(post.getDateCreated() == null) {
             post.setDateCreated(new Date());
         }
         post.setCreator(coderService.getCoder(userDetails.getUsername()));
         postService.addPost(post);
+        return "Post was published";
     }
 }

@@ -1,7 +1,5 @@
 package com.oskarro.codecity.config;
 
-
-import com.oskarro.codecity.entities.Coder;
 import com.oskarro.codecity.entities.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,22 +18,16 @@ public class CustomUserDetails implements UserDetails {
     private String password;
     private String username;
 
-    public CustomUserDetails(Coder coder) {
-        this.username = coder.getUsername();
-        this.password = coder.getPassword();
-        this.authorities = translate(coder.getRoles());
+    public CustomUserDetails(Collection<? extends GrantedAuthority> authorities, String password, String username) {
+        this.authorities = authorities;
+        this.password = password;
+        this.username = username;
     }
 
-    /**
-     * Translates the List<Role> to a List<GrantedAuthority>
-     * @param roles the input list of roles.
-     * @return a list of granted authorities
-     */
     private Collection<? extends GrantedAuthority> translate(List<Role> roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
         for (Role role : roles) {
             String name = role.getName().toUpperCase();
-            //Make sure that all roles start with "ROLE_"
             if (!name.startsWith("ROLE_"))
                 name = "ROLE_" + name;
             authorities.add(new SimpleGrantedAuthority(name));
