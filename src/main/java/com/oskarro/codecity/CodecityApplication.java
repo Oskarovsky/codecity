@@ -32,7 +32,7 @@ public class CodecityApplication {
      * Password grants are switched on by injecting an AuthenticationManager.
      * Here, we setup the builder so that the userDetailsService is the one we coded.
      * @param builder
-     * @param repository
+     * @param coderRepository
      * @throws Exception
      */
     @Autowired
@@ -47,7 +47,7 @@ public class CodecityApplication {
 
     /**
      * We return an istance of our CustomUserDetails.
-     * @param repository
+     * @param coderRepository
      * @return
      */
     private UserDetailsService userDetailsService(final CoderRepository coderRepository) {
